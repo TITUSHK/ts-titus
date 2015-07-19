@@ -40,8 +40,6 @@ while read atype; do
     fi
 done < ${config}
 
-echo "packages ${pkgvers[@]}"
-
 # Read in the packages
 for pkgver in ${pkgvers[@]}; do
     pkg=$(echo $pkgver | awk -F',' '{print $1}')

@@ -51,7 +51,9 @@ sortedVersions=( $(for aver in "${versions[@]}"; do
     echo "${aver}"
 done | sort -u) )
 
-k=0
+echo "0 version: master"
+revers[0]="master"
+k=1
 for ((j=${#sortedVersions[@]}-1; j>=0; j--)); do
     rever=${sortedVersions[$j]}
     echo "$k version: $rever"

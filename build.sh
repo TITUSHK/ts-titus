@@ -87,7 +87,6 @@ for pkg in ${packs[@]}; do
            CLHEP_VERSION=${version}
         fi
     done
-    echo "package $pkg version $version"
     source ${tsbuilddir}/Source_At_Start.sh
     buildpkg="./${moddir}/${pkgsdir}/build_${pkg}.sh"
     . ${buildpkg} ${parentdir}/${pkg} $2 ${version}
