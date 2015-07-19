@@ -30,13 +30,13 @@ if [[ $2 == "build" ]]; then
 	    if [[ -e "Makefile" ]]; then
             make clean
 	    fi
-	    csh -c ./Makeneutsmpl.csh > "${hkbuilddir}/log/neut-build.log" 2>&1
+	    csh -c ./Makeneutsmpl.csh > "${tsbuilddir}/log/neut-build.log" 2>&1
 	    echo "Finished NEUT build (check the neut-build.log to see if the build was successful)"
     fi
 elif [[ $2 == "clean"  ]]; then
 	echo "Cleaning NEUT..."
 	if [[ -e "Makefile" ]]; then
-	    make  clean > "${hkbuilddir}/log/neut-clean.log" 2>&1
+	    make  clean > "${tsbuilddir}/log/neut-clean.log" 2>&1
 	fi
 	echo "Done cleaning NEUT"
 fi

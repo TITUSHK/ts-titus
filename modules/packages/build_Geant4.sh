@@ -24,9 +24,9 @@ if [[ $2 == "build" ]]; then
         mkdir "build"
     fi
     cd ./build
-    cmake -DCMAKE_INSTALL_PREFIX="${GEANT4_BASE_DIR}/install" -DCLHEP_VERSION_OK=2.1.0.1 -DCLHEP_LIBRARIES="${CLHEP_BASE_DIR}/lib" -DCLHEP_INCLUDE_DIRS="${CLHEP_BASE_DIR}/include" ${GEANT4_BASE_DIR}/source > "${hkbuilddir}/log/geant4-build.log" 2>&1
-    make >> "${hkbuilddir}/log/geant4-build.log" 2>&1
-    make install >> "${hkbuilddir}/log/geant4-build.log" 2>&1
+    cmake -DCMAKE_INSTALL_PREFIX="${GEANT4_BASE_DIR}/install" -DCLHEP_VERSION_OK=2.1.0.1 -DCLHEP_LIBRARIES="${CLHEP_BASE_DIR}/lib" -DCLHEP_INCLUDE_DIRS="${CLHEP_BASE_DIR}/include" ${GEANT4_BASE_DIR}/source > "${tsbuilddir}/log/geant4-build.log" 2>&1
+    make >> "${tsbuilddir}/log/geant4-build.log" 2>&1
+    make install >> "${tsbuilddir}/log/geant4-build.log" 2>&1
 
     # Hack needed to compile the libmap and create the map file for the
     # libraries
@@ -35,9 +35,9 @@ if [[ $2 == "build" ]]; then
         # Set the G4INSTALL to point to the source location of the code
         export G4INSTALL=${GEANT4_BASE_DIR}/source
         cd ${GEANT4_BASE_DIR}/source/source
-        make libmap >> "${hkbuilddir}/log/geant4-build.log" 2>&1
+        make libmap >> "${tsbuilddir}/log/geant4-build.log" 2>&1
     fi
-    cd ${hkbuilddir}
+    cd ${tsbuilddir}
     cd ${pkgdir}
 
     if [[ ! -d "data" ]]; then
@@ -46,8 +46,8 @@ if [[ $2 == "build" ]]; then
       
     cd "data"
     if [ ! -e "G4NDL.3.14.tar.gz" ]; then
-        wget http://geant4.cern.ch/support/source/G4NDL.3.14.tar.gz  >> "${hkbuilddir}/log/geant4-build.log" 2>&1
-        tar -zxvf G4NDL.3.14.tar.gz >> "${hkbuilddir}/log/geant4-build.log" 2>&1
+        wget http://geant4.cern.ch/support/source/G4NDL.3.14.tar.gz  >> "${tsbuilddir}/log/geant4-build.log" 2>&1
+        tar -zxvf G4NDL.3.14.tar.gz >> "${tsbuilddir}/log/geant4-build.log" 2>&1
     else
         echo "Tar file G4NDL.3.14.tar.gz already downloaded"
     fi
@@ -58,10 +58,10 @@ elif [[ $2 == "clean"  ]]; then
     echo "Cleaning GEANT4..."
     if [[ -d "${pkgdir}/build" ]]; then
         cd ${pkgdir}/build
-        make clean >> "${hkbuilddir}/log/geant4-clean.log" 2>&1
+        make clean >> "${tsbuilddir}/log/geant4-clean.log" 2>&1
         cd ../
         /bin/rm -r install
-        cd ${hkbuilddir}
+        cd ${tsbuilddir}
     fi
     echo "Done cleaning GEANT4"
 fi

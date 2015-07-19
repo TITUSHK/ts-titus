@@ -30,11 +30,11 @@ while read aline; do
 done < ${parentdir}/${cfgpkg}/${config}
 
 if [[ -z "$1"  || -z "$2" ]]; then
-    echo "Script to build TITUS packages."
-    echo "Usage: ./build.sh <package> <action> <detector>"
+    echo "Script to build ALL packages."
+    echo "Usage: ./build.sh <package> <action>"
     echo "Available values for <package> are: ${packages[@]}"
     echo "Valid <action> are: build, clean."
-    echo "Valid <detector> are: TITUS (default)"
+    echo "Valid <detector> are: ALL (default)"
     exit
 fi
 

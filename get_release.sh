@@ -6,14 +6,8 @@
 # used. This then causes the packages within that release to be checked out.
 
 curdir=${PWD}
-hkconfig="hk-config.cfg"
+tsconfig="ts-config.cfg"
 config=""
-
-if [[ -z "$1" ]]; then
-    detector="HK"
-else
-    detector=$1
-fi
 
 if [[ $2 == "dev" ]]; then
     if [[ -z "$3" ]]; then
@@ -27,12 +21,14 @@ if [[ $2 == "dev" ]]; then
 fi
 
 while read line; do
-    if [[ $line =~ ${detector} ]]; then	
-        path=$(echo ${line} | awk '{print $2}')
-        package=$(echo ${line} | awk '{print $3}')
-        git clone $path ../$package
+    path=$(echo ${line} | awk '{print $2}')
+    package=$(echo ${line} | awk '{print $3}')
+    if [[ ! -d ../${package} ]]; then
+       git clone $path ../$package
+    else:
+       echo "Package already exists. Skipping clone"
     fi
-done < ${hkconfig}
+done < ${tsconfig}
 
 # Get the list of releases in reverse order
 cd ../$package
@@ -74,10 +70,14 @@ fi
 
 re='^[0-9]+$'
 if [[ $vernum =~ $re && $vernum -le $lastver ]]; then
-    cd ../$package
-    git checkout master
-    git checkout tags/${revers[$vernum]}
-    cd $curdir
+    if [[ ! -d ${package} ]]; then
+       cd ../$package
+       git checkout master
+       git checkout tags/${revers[$vernum]}
+       cd $curdir
+    else
+       echo "Package exists. Skipping checkout"
+    fi
 else
     echo "Unrecognised version number. Exiting"
     exit

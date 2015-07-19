@@ -48,14 +48,17 @@ for pkgver in ${pkgvers[@]}; do
     while read apkg; do
         [[ -z $pkg ]] && continue
         if [[ $apkg =~ $pkg ]]; then
-            echo "CLONING package: ${pkg}"
-            path=$(echo $apkg | awk '{print $1}')
-            if [[ $version == "HEAD" ]]; then
-                git clone ${path} ${parent}/${pkg}; cd ${parent}/${pkg}
+            if [[ ! -d ${parent}/$pkg ]]; then
+                echo "CLONING package: ${pkg}"
+                path=$(echo $apkg | awk '{print $1}')
+                if [[ $version == "HEAD" ]]; then
+                    git clone ${path} ${parent}/${pkg}; cd ${parent}/${pkg}
+                else
+                    git clone ${path} ${parent}/${pkg}; cd ${parent}/${pkg}; git checkout tags/${version}
+                fi
             else
-                git clone ${path} ${parent}/${pkg}; cd ${parent}/${pkg}; git checkout tags/${version}
+                echo "Package already exists. Skipping clone and checkout"
             fi
-            break
         fi
     done < ${parent}/${cfgpkg}/${pkgscfg}
 done

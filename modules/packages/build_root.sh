@@ -15,13 +15,13 @@ cd ${pkgdir}
 
 if [[ $2 == "build" ]]; then
     echo "Starting ROOT build (can take some time)"
-     ./configure --disable-cxx11 --enable-python --enable-roofit  > "${hkbuilddir}/log/root-build.log" 2>&1
-      make >> "${hkbuilddir}/log/root-build.log" 2>&1
+     ./configure --disable-cxx11 --enable-python --enable-roofit  > "${tsbuilddir}/log/root-build.log" 2>&1
+      make >> "${tsbuilddir}/log/root-build.log" 2>&1
       source ${ROOTSYS}/bin/thisroot.sh
       echo "Finished ROOT build (check the root-build.log to see if the build was successful)"
 elif [[ $2 == "clean" ]]; then
     echo "Cleaning ROOT..."
-    make distclean > "${hkbuilddir}/log/root-clean.log" 2>&1
+    make distclean > "${tsbuilddir}/log/root-clean.log" 2>&1
     echo "Done cleaning ROOT"
 fi
 

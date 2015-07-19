@@ -14,13 +14,13 @@ cd ${pkgdir}
 
 if [[ $2 == "build" ]]; then
     echo "starting CLHEP build (can take some time)"
-    ./configure --prefix=${CLHEP_BASE_DIR} > "${hkbuilddir}/log/clhep-build.log" 2>&1
-    make >> "${hkbuilddir}/log/clhep-build.log" 2>&1
-    make install >> "${hkbuilddir}/log/clhep-build.log" 2>&1
+    ./configure --prefix=${CLHEP_BASE_DIR} > "${tsbuilddir}/log/clhep-build.log" 2>&1
+    make >> "${tsbuilddir}/log/clhep-build.log" 2>&1
+    make install >> "${tsbuilddir}/log/clhep-build.log" 2>&1
     echo "Finished CLHEP build (check the clhep-build.log to see if build was successful)"
 elif [[ $2 == "clean"  ]]; then
     echo "Cleaning CLHEP..."
-    make clean > "${hkbuilddir}/log/clhep-clean.log" 2>&1
+    make clean > "${tsbuilddir}/log/clhep-clean.log" 2>&1
     echo "Done cleaning CLHEP"
 fi
 
