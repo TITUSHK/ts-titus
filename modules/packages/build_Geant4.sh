@@ -4,6 +4,19 @@
 
 tcurdir=${PWD}
 pkgdir=""
+
+if [[ -z "$3" ]]; then
+   echo "Error: version environmental variable missing."
+   exit 105
+fi
+
+if [[ -z "$CLHEP_VERSION" ]]; then
+   echo "Error CLHEP_VERSION environmental variable missing."
+   exit 106
+fi
+
+version=$3
+
 if [[ -d $1 ]]; then
     pkgdir=$1
 else
@@ -24,19 +37,20 @@ if [[ $2 == "build" ]]; then
         mkdir "build"
     fi
     cd ./build
-    cmake -DCMAKE_INSTALL_PREFIX="${GEANT4_BASE_DIR}/install" -DCLHEP_VERSION_OK=2.1.0.1 -DCLHEP_LIBRARIES="${CLHEP_BASE_DIR}/lib" -DCLHEP_INCLUDE_DIRS="${CLHEP_BASE_DIR}/include" ${GEANT4_BASE_DIR}/source > "${tsbuilddir}/log/geant4-build.log" 2>&1
+    cmake -DGEANT4_INSTALL_DATA=ON -DGEANT4_INSTALL_DATADIR=${pkgdir}/data -DCMAKE_INSTALL_PREFIX="${GEANT4_BASE_DIR}/install" -DCLHEP_VERSION_OK=${CLHEP_VERSION} -DCLHEP_LIBRARIES="${CLHEP_BASE_DIR}/lib" -DCLHEP_INCLUDE_DIRS="${CLHEP_BASE_DIR}/include" ${GEANT4_BASE_DIR}/source/${version} > "${tsbuilddir}/log/geant4-build.log" 2>&1
     make >> "${tsbuilddir}/log/geant4-build.log" 2>&1
     make install >> "${tsbuilddir}/log/geant4-build.log" 2>&1
 
     # Hack needed to compile the libmap and create the map file for the
     # libraries
-    if [[ -e ${GEANT4_BASE_DIR}/install/share/geant4-9.4.4/config/geant4-9.4.4.sh ]]; then
-        source ${GEANT4_BASE_DIR}/install/share/geant4-9.4.4/config/geant4-9.4.4.sh
-        # Set the G4INSTALL to point to the source location of the code
-        export G4INSTALL=${GEANT4_BASE_DIR}/source
-        cd ${GEANT4_BASE_DIR}/source/source
-        make libmap >> "${tsbuilddir}/log/geant4-build.log" 2>&1
-    fi
+    #if [[ -e ${GEANT4_BASE_DIR}/install/share/geant4-9.4.4/config/geant4-9.4.4.sh ]]; then
+    #    source ${GEANT4_BASE_DIR}/install/share/geant4-9.4.4/config/geant4-9.4.4.sh
+    #    # Set the G4INSTALL to point to the source location of the code
+    #    export G4INSTALL=${GEANT4_BASE_DIR}/source
+    #    cd ${GEANT4_BASE_DIR}/source/source
+    #    make libmap >> "${tsbuilddir}/log/geant4-build.log" 2>&1
+    #fi
+
     cd ${tsbuilddir}
     cd ${pkgdir}
 

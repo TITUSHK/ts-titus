@@ -7,9 +7,10 @@ export parentdir
 unset GEANT4_BASE_DIR
 export GEANT4_BASE_DIR=${parentdir}/Geant4
 
-if [[ -e "${GEANT4_BASE_DIR}/install/bin/Geant4.sh" ]]; then
-    . ${GEANT4_BASE_DIR}/install/bin/Geant4.sh
-    . ${GEANT4_BASE_DIR}/install/share/Geant4-9.6.4/geant4make/geant4make.sh
+if [[ -e "${GEANT4_BASE_DIR}/install/bin/geant4.sh" ]]; then
+    . ${GEANT4_BASE_DIR}/install/bin/geant4.sh
+    g4makepath=$(find ${GEANT4_BASE_DIR}/install -name 'geant4make.sh' -print)
+    . ${g4makepath}
 fi
 
 if [[ ":${LD_LIBRARY_PATH}:" != "" ]]; then

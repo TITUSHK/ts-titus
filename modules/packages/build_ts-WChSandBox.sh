@@ -17,6 +17,7 @@ cd ${pkgdir}
 if [[ $2 == "build" ]]; then
         echo "Starting ts-WChSandBox build (can take some time)"
 	. ${tsbuilddir}/Source_At_Start.sh
+        echo "g4install $G4INSTALL"
         make > "${tsbuilddir}/log/ts-wchsandbox-build.log" 2>&1
 	echo "Finished ts-WChSandBox build (check the ts-wchsandbox-build.log to see if the build was successful)"
 elif [[ $2 == "clean"  ]]; then

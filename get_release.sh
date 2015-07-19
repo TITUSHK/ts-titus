@@ -24,7 +24,7 @@ while read line; do
     path=$(echo ${line} | awk '{print $2}')
     package=$(echo ${line} | awk '{print $3}')
     if [[ -d "../${package}" ]]; then
-       echo "Package already exists. Skipping clone"
+       echo "Package ${package} already exists. Skipping clone"
     else
        git clone $path ../$package
     fi
@@ -71,7 +71,7 @@ fi
 re='^[0-9]+$'
 if [[ $vernum =~ $re && $vernum -le $lastver ]]; then
     if [[ -d "../${package}" ]]; then
-       echo "Package exists. Skipping checkout"
+       echo "Package ${package} exists. Skipping checkout"
     else
        cd ../$package
        git checkout master

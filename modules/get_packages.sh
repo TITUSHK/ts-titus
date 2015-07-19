@@ -51,7 +51,7 @@ for pkgver in ${pkgvers[@]}; do
         [[ -z $pkg ]] && continue
         if [[ $apkg =~ $pkg ]]; then
             if [[ -d ${parent}/$pkg ]]; then
-                echo "Package already exists. Skipping clone and checkout"
+                echo "Package ${parent}/${pkg} already exists. Skipping clone and checkout"
             else
                 echo "CLONING package: ${pkg}"
                 path=$(echo $apkg | awk '{print $1}')

@@ -46,6 +46,7 @@ fi
 
 # Now get the packages for the selected type
 ptype=0
+i=0
 while read apkgline; do
     if [[ $apkgline == "TYPE" ]]; then
         ptype=1
@@ -60,15 +61,36 @@ while read apkgline; do
             packs[0]=$(echo $apkgline | awk '{print $1}')
         fi
     fi
+    # Also cache the package and version needed for building CLHEP and GEANT4
+    if [[ ${ptype} == 0 ]] && [[ "${apkgline}" != "PACKAGES" ]]; then
+       pkgvers[$i]=$(echo $apkgline)
+       i=$(($i+1))
+    fi
 done < ${parentdir}/${cfgpkg}/${config}
 
-echo ${packs[@]}
+if [[ -z "${packs[@]}" ]]; then
+   echo "Error: Package $1 not found."
+   exit 105
+fi
 
 cd ${tsbuilddir}
 for pkg in ${packs[@]}; do
+    total=${#pkgvers[*]}
+    for  (( i=0; i<=$(( $total -1 )); i++ )); do
+        apkg=$(echo ${pkgvers[$i]} | awk '{print $1}')
+        aver=$(echo ${pkgvers[$i]} | awk '{print $2}')
+        if [[ $pkg == $apkg ]]; then
+           version=$aver
+           break
+        fi
+        if [[ $apkg == "CLHEP" ]]; then
+           CLHEP_VERSION=${version}
+        fi
+    done
+    echo "package $pkg version $version"
     source ${tsbuilddir}/Source_At_Start.sh
     buildpkg="./${moddir}/${pkgsdir}/build_${pkg}.sh"
-    . ${buildpkg} ${parentdir}/${pkg} $2
+    . ${buildpkg} ${parentdir}/${pkg} $2 ${version}
     cd ${tsbuilddir}
 done
 echo " "
