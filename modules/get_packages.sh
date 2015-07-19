@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/bash -x
 # Script to download the packages given in the config files.
 parent=".."
 cfgpkg="ts-config"
-pkgtype="TITUS"
+pkgtype="ALL"
 pkgscfg="ts-packages.cfg"
 
 # If the config isn't set then we set it to the production config file
@@ -40,6 +40,8 @@ while read atype; do
     fi
 done < ${config}
 
+echo "packages ${pkgvers[@]}"
+
 # Read in the packages
 for pkgver in ${pkgvers[@]}; do
     pkg=$(echo $pkgver | awk -F',' '{print $1}')
@@ -48,7 +50,9 @@ for pkgver in ${pkgvers[@]}; do
     while read apkg; do
         [[ -z $pkg ]] && continue
         if [[ $apkg =~ $pkg ]]; then
-            if [[ ! -d ${parent}/$pkg ]]; then
+            if [[ -d ${parent}/$pkg ]]; then
+                echo "Package already exists. Skipping clone and checkout"
+            else
                 echo "CLONING package: ${pkg}"
                 path=$(echo $apkg | awk '{print $1}')
                 if [[ $version == "HEAD" ]]; then
@@ -56,8 +60,6 @@ for pkgver in ${pkgvers[@]}; do
                 else
                     git clone ${path} ${parent}/${pkg}; cd ${parent}/${pkg}; git checkout tags/${version}
                 fi
-            else
-                echo "Package already exists. Skipping clone and checkout"
             fi
         fi
     done < ${parent}/${cfgpkg}/${pkgscfg}

@@ -23,10 +23,10 @@ fi
 while read line; do
     path=$(echo ${line} | awk '{print $2}')
     package=$(echo ${line} | awk '{print $3}')
-    if [[ ! -d ../${package} ]]; then
-       git clone $path ../$package
-    else:
+    if [[ -d "../${package}" ]]; then
        echo "Package already exists. Skipping clone"
+    else
+       git clone $path ../$package
     fi
 done < ${tsconfig}
 
@@ -70,13 +70,13 @@ fi
 
 re='^[0-9]+$'
 if [[ $vernum =~ $re && $vernum -le $lastver ]]; then
-    if [[ ! -d ${package} ]]; then
+    if [[ -d "../${package}" ]]; then
+       echo "Package exists. Skipping checkout"
+    else
        cd ../$package
        git checkout master
        git checkout tags/${revers[$vernum]}
        cd $curdir
-    else
-       echo "Package exists. Skipping checkout"
     fi
 else
     echo "Unrecognised version number. Exiting"
