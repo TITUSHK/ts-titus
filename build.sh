@@ -84,7 +84,7 @@ for pkg in ${packs[@]}; do
            break
         fi
         if [[ $apkg == "CLHEP" ]]; then
-           CLHEP_VERSION=${version}
+           CLHEP_VERSION=${aver}
         fi
     done
     source ${tsbuilddir}/Source_At_Start.sh
