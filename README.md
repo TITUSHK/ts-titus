@@ -13,3 +13,9 @@ ts_release.cfg                  : tag of each package of the release
 [option] = ALL for building all the packages, otherwise use 
 
 CLHEP Geant4 NEUT root ts-WChSandBox ts-WChRecoSandBox
+
+
+git clone https://github.com/TITUSHK/ts-titus.git
+cd ts-titus
+./get_release.sh  #check out the master version when prompted
+./build.sh ALL build 
