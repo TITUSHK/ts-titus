@@ -27,6 +27,6 @@ git clone https://github.com/TITUSHK/ts-titus.git
 cd ts-titus
 ./get_release.sh  #check out the master version when prompted
 source ./Source_At_Start.sh
-./build.sh ALL build 
+./build.sh ALL build
 
 ********************************************************************************************************
