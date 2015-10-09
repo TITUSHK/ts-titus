@@ -21,7 +21,7 @@ ts_release.cfg                  : tag of each package of the release
 CLHEP Geant4 NEUT root ts-WChSandBox ts-WChRecoSandBox
 *******************************************************************************************************
 
-************************************ To Get package and isntall software *******************************
+************************************ To get packages and install software *******************************
 
 git clone https://github.com/TITUSHK/ts-titus.git
 cd ts-titus
