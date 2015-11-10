@@ -5,7 +5,7 @@ ts-titus is a management package in the TITUSHK organization. It contains the sc
 
 To check the status of the HEAD for any build problems before downloaded and installing the nightly build and runtime testing results can be found at:
 
-http://pprc.qmul.ac.uk/~richards/Validation/index.html
+http://pprc.qmul.ac.uk/~richards/TITUS/index.html
 
 *************************************** Description of scripts  ****************************************
 
